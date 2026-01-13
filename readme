@@ -1,0 +1,8 @@
+just edit the imgs to ur own. if u use vm i recomend smalled resolution and alway keep resolution the same. one u update the imgs just run it. Map the click buttons just follow the strings in the init of class.
+
+make python virtual env
+
+python -m venv venv 
+.venv/Scripts/Activate.ps1
+
+pip install -r requirements.txt
