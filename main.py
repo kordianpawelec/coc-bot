@@ -42,6 +42,7 @@ class FarmingBot:
         self.maxed_img = self.img_load('maxed.png')
         self.star_army_img = self.img_load('start_army.png')
         self.attack_img = self.img_load('attack_img.png')
+        self.try_again_img = self.img_load('try_again.png')
         self.air_defences = [
             self.img_load('air_def1.png'),
             self.img_load('air_def2.png'),
@@ -113,13 +114,7 @@ class FarmingBot:
         return
 
     def handel_timeout(self):
-        pyautogui.hotkey('ctrl', 'shift', '5')
-        self.sleep(15)
-        pyautogui.typewrite('z')
-        self.sleep(15)
-        pyautogui.typewrite('x')
-        self.sleep(120)
-        pyautogui.typewrite('w')
+        pass
 
     def spawn_army(self):
         print('army sequance staring...')
@@ -171,10 +166,14 @@ class FarmingBot:
             if self.reload_flag.is_set():
                 time.sleep(1)
                 continue
-
+            
             if pos:=self.detect_object(self.reload_img):
                 self.reload_pos = pos[0]
                 self.reload_flag.set()
+            elif pos:=self.detect_object(self.try_again_img):
+                self.reload_pos = pos[0]
+                self.reload_flag.set()
+
             time.sleep(3)
 
 
@@ -215,7 +214,7 @@ class FarmingBot:
         if self.reload_pos is not None:
             pyautogui.moveTo(self.reload_pos)
             pyautogui.click()
-        time.sleep(120)
+        time.sleep(10)
         self.reload_pos = None
 
 
