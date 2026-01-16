@@ -151,14 +151,12 @@ class FarmingBot:
             pyautogui.typewrite('0')
 
     def end_battle(self):
-        print('checking if the game ended')
         if self.detect_object(self.return_img, amount=1) is not None:
             pyautogui.typewrite(self.return_base)
             self.sleep(3)
             print('game end found, ENDING!')
             return True
         else:
-            print('game not ended, contunue!')
             return False
 
     def reload_watchdog(self):
@@ -178,33 +176,33 @@ class FarmingBot:
 
 
     def find_new(self):
+        print('waiting for attack img')
         while not self.detect_object(self.attack_img):
             if time.time() - self.str_time > self.TIMEOUT:
                 print('leaving loop, timeout')
                 return
-            print('waiting for attack img')
             self.sleep(1)
         print('Staring battle search')
         
         pyautogui.typewrite(self.attack_1)
         self.sleep(1)
         
+        print('waiting for find find match img')
         while not self.detect_object(self.find_match_img):
             if time.time() - self.str_time > self.TIMEOUT:
                 print('leaving loop, timeout')
                 return
-            print('waiting for find find match img')
             self.sleep(1)
-
+        print('found match img')
         pyautogui.typewrite(self.find_match)
         self.sleep(1)
-
+        print('waiting for attack two to load...')
         while not self.detect_object(self.attack_img_2):
             if time.time() - self.str_time > self.TIMEOUT:
                 print('leaving loop, timeout')
                 return
-            print('waiting for army to load...')
             self.sleep(1)
+        print('attack found beginning battle...')
         pyautogui.typewrite(self.attack_2)
 
         self.sleep(1)
@@ -214,7 +212,7 @@ class FarmingBot:
         if self.reload_pos is not None:
             pyautogui.moveTo(self.reload_pos)
             pyautogui.click()
-        time.sleep(10)
+        time.sleep(15)
         self.reload_pos = None
 
 
@@ -240,6 +238,7 @@ class FarmingBot:
                 print('beginning of the game loop...')
                 self.find_new()
                 self.spawn_army()
+                print('checking if the game ended')
                 while not self.end_battle():
                     if time.time() - self.str_time > 220:
                         print('solving timeout')
